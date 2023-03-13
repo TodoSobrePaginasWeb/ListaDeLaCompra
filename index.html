@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Lista de compras</title>
+  <style>
+        body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      background-color: #F8CA8D;
+      color: white;
+      padding: 1rem;
+      margin: 0;
+    }
+
+    form {
+      display: flex;
+      margin-top: 2rem;
+    }
+
+    label {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-right: 1rem;
+    }
+
+    input[type="text"] {
+      font-size: 1.2rem;
+      padding: 0.5rem;
+      border: 2px solid #F8CA8D;
+      border-radius: 0.5rem;
+      flex-grow: 1;
+    }
+
+    button[type="submit"] {
+      font-size: 1.2rem;
+      padding: 0.5rem 1rem;
+      background-color: #F8CA8D;
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      margin-left: 1rem;
+      cursor: pointer;
+    }
+
+    ul {
+      list-style: none;
+      margin-top: 2rem;
+      padding: 0;
+    }
+
+    li {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    button#eliminarTodo {
+      font-size: 1.2rem;
+      padding: 0.5rem 1rem;
+      background-color: #F8CA8D;
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      margin-top: 2rem;
+      cursor: pointer;
+    }
+    
+    button#enviarOpinion {
+      font-size: 1.2rem;
+      padding: 0.5rem 1rem;
+      background-color: #F8CA8D;
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      margin-top: 2rem;
+      cursor: pointer;
+    }
+
+    textarea#opinion {
+      font-size: 1.2rem;
+      padding: 0.5rem;
+      border: 2px solid #F8CA8D;
+      border-radius: 0.5rem;
+      margin-top: 2rem;
+      width: 100%;
+    }
+    .comprado {
+      text-decoration: line-through;
+      color: grey;
+    }
+
+  </style>
+</head>
+<body>
+  <h1>Lista de compras</h1>
+<h3>Para tachar un producto solo haz click en el</h3>
+  <form>
+    <label for="producto">Agregar producto:</label>
+    <input type="text" id="producto" name="producto">
+    <button type="submit">Agregar</button>
+  </form>
+
+  <ul id="lista">
+    <!-- Los productos agregados se mostrarán aquí -->
+  </ul>
+
+  <button id="eliminarTodo">Eliminar todos los productos</button>
+
+  <h2>¿Qué opinas de nuestra lista de compras?</h2>
+
+  <textarea id="opinion" name="opinion" rows="5"></textarea>
+
+  <button id="enviarOpinion">Enviar opinión</button>
+
+  <script>
+    const form = document.querySelector('form');
+    const lista = document.querySelector('#lista');
+    const botonEliminarTodo = document.querySelector('#eliminarTodo');
+    const botonEnviarOpinion = document.querySelector('#enviarOpinion');
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault(); // Prevenimos que el formulario se envíe
+
+      // Obtenemos el valor del campo de texto
+      const producto = document.querySelector('#producto').value;
+
+      // Creamos un nuevo elemento de lista y lo agregamos a la lista
+      const nuevoElemento = document.createElement('li');
+      nuevoElemento.textContent = producto;
+      lista.appendChild(nuevoElemento);
+
+      // Limpiamos el campo de texto
+      document.querySelector('#producto').value = '';
+    });
+    lista.addEventListener('click', (event) => {
+      // Si el elemento clickeado es un elemento de la lista
+      if (event.target.tagName === 'LI') {
+        // Tachamos o destachamos el elemento dependiendo de su estado
+        event.target.classList.toggle('comprado');
+      }
+    });
+
+    botonEliminarTodo.addEventListener('click', () => {
+      // Eliminamos todos los elementos de la lista
+      while (lista.firstChild) {
+        lista.removeChild(lista.firstChild);
+      }
+    });
+
+    botonEnviarOpinion.addEventListener('click', () => {
+      // Obtenemos el valor del campo de texto
+      const opinion = document.querySelector('#opinion').value;
+
+      // Enviamos la opinión a través de una petición HTTP o de otro modo adecuado
+      // Aquí sólo mostramos un mensaje de confirmación
+      alert(`Gracias por tu opinión: ${opinion}`);
+    });
+  </script>
+</body>
+</html>
